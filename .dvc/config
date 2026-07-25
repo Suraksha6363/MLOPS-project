@@ -1,4 +1,6 @@
 [core]
-    remote = myremote
+    remote = dagshub
 ['remote "myremote"']
     url = /path/to/some/other/folder
+['remote "dagshub"']
+    url = https://dagshub.com/Suraksha6363/MLOPS-project.dvc
