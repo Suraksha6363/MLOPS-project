@@ -1,0 +1,92 @@
+schema: '2.0'
+stages:
+  make_dataset:
+    cmd: python src/data/make_dataset.py --output_dir data/processed --test_size 0.2
+    deps:
+    - path: src/data/make_dataset.py
+      hash: md5
+      md5: a77db018a1f6990e7490edba90b52e31
+      size: 2528
+    outs:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 8aca9110f9608ceb46200c13f13279e6
+      size: 24796
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 3233f115746657988b0ba9eaa5340f87
+      size: 97652
+  build_features:
+    cmd: python src/features/build_features.py --input_dir data/processed --output_dir
+      data/processed --model_dir models
+    deps:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 8aca9110f9608ceb46200c13f13279e6
+      size: 24796
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 3233f115746657988b0ba9eaa5340f87
+      size: 97652
+    - path: src/features/build_features.py
+      hash: md5
+      md5: 4e08723f4848ec01e3283d26f9c18a04
+      size: 3016
+    outs:
+    - path: data/processed/test_features.csv
+      hash: md5
+      md5: 09c77617d3066019449ff741c1c8d586
+      size: 68434
+    - path: data/processed/train_features.csv
+      hash: md5
+      md5: ab52c1e2ad67ae8ee5f456b5897211f1
+      size: 271459
+    - path: models/scaler.pkl
+      hash: md5
+      md5: 16701137b4d3c887748c89f9e7f0b83d
+      size: 2103
+  train_model:
+    cmd: python src/models/train_model.py --input_dir data/processed --model_dir models
+    deps:
+    - path: data/processed/test_features.csv
+      hash: md5
+      md5: 09c77617d3066019449ff741c1c8d586
+      size: 68434
+    - path: data/processed/train_features.csv
+      hash: md5
+      md5: ab52c1e2ad67ae8ee5f456b5897211f1
+      size: 271459
+    - path: src/models/train_model.py
+      hash: md5
+      md5: e91d5fd4fc1e3d1092e6b1b8c4e7ef6c
+      size: 2712
+    outs:
+    - path: models/model.pkl
+      hash: md5
+      md5: 12f3f77f6bbf31af3d67adda6203cf5a
+      size: 325113
+  predict_model:
+    cmd: python src/models/predict_model.py --input data/processed/test.csv --output
+      reports/predictions.csv --model_dir models
+    deps:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 8aca9110f9608ceb46200c13f13279e6
+      size: 24796
+    - path: models/model.pkl
+      hash: md5
+      md5: 12f3f77f6bbf31af3d67adda6203cf5a
+      size: 325113
+    - path: models/scaler.pkl
+      hash: md5
+      md5: 16701137b4d3c887748c89f9e7f0b83d
+      size: 2103
+    - path: src/models/predict_model.py
+      hash: md5
+      md5: d1f9b151fe895059b5491f9c795b8cbf
+      size: 3015
+    outs:
+    - path: reports/predictions.csv
+      hash: md5
+      md5: 63f521f41646adeeb9773dccec4bf128
+      size: 25568
