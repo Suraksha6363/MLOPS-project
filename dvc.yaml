@@ -36,3 +36,12 @@ stages:
       - models/scaler.pkl
     outs:
       - reports/predictions.csv
+  visualize:
+    cmd: python src/visualization/visualize.py --predictions reports/predictions.csv --model_dir models --output_dir reports/figures
+    deps:
+      - src/visualization/visualize.py
+      - reports/predictions.csv
+      - models/model.pkl
+    outs:
+      - reports/figures/confusion_matrix.png
+      - reports/figures/feature_importance.png

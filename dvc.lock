@@ -90,3 +90,28 @@ stages:
       hash: md5
       md5: 63f521f41646adeeb9773dccec4bf128
       size: 25568
+  visualize:
+    cmd: python src/visualization/visualize.py --predictions reports/predictions.csv
+      --model_dir models --output_dir reports/figures
+    deps:
+    - path: models/model.pkl
+      hash: md5
+      md5: 12f3f77f6bbf31af3d67adda6203cf5a
+      size: 325113
+    - path: reports/predictions.csv
+      hash: md5
+      md5: 63f521f41646adeeb9773dccec4bf128
+      size: 25568
+    - path: src/visualization/visualize.py
+      hash: md5
+      md5: e46b2c3e82b477673b1c851a2bfee3f3
+      size: 3789
+    outs:
+    - path: reports/figures/confusion_matrix.png
+      hash: md5
+      md5: 1cb3929cbf52aca61b44c79edb02ed19
+      size: 20070
+    - path: reports/figures/feature_importance.png
+      hash: md5
+      md5: a7fb9b4683872d0d65c0416ab05305d9
+      size: 55711
